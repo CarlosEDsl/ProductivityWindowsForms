@@ -38,10 +38,18 @@ namespace Productivity
                     monthStatisticList.Add(statistic);
             }
 
-            this.MakeHoursGraph();
-            this.MakeTasksGraph();
-            this.InsertTotalTasks();
-            this.InsertPercentualFinished();
+            if(monthStatisticList.Count > 0)
+            {
+                this.MakeHoursGraph();
+                this.MakeTasksGraph();
+                this.InsertTotalTasks();
+                this.InsertPercentualFinished();
+            }
+            else
+            {
+                totalTasks.Text = "0";
+                percentualFinished.Text = "0%";
+            }
         }
 
         private void MakeHoursGraph()

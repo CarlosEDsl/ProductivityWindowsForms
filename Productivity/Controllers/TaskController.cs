@@ -1,18 +1,18 @@
-﻿using Newtonsoft.Json;
-using Productivity.Cache;
-using Productivity.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Productivity.Cache;
+using Productivity.Models;
 
 namespace Productivity.Controllers
 {
     internal class TaskController
     {
         private readonly HttpClient client;
-        private readonly string APIUrl = "http://localhost:8080/task";
+        private readonly string APIUrl = "https://productivityapp-api-production.up.railway.app/task";
         private static TaskController _instance;
 
         public TaskController()
@@ -88,7 +88,7 @@ namespace Productivity.Controllers
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await client.PutAsync($"{APIUrl}/{task.Id}", taskRequestBody);
                 response.EnsureSuccessStatusCode();
-
+                Console.Write(jsonTask);
 
                 return true;
             }
@@ -131,7 +131,7 @@ namespace Productivity.Controllers
             try
             {
                 string token = TokenCache.GetToken();
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer ", token);
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await client.GetAsync($"{APIUrl}/{id}");
                 response.EnsureSuccessStatusCode();

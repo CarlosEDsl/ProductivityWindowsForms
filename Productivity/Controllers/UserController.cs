@@ -14,8 +14,8 @@ namespace Productivity.Controllers
         private static UserController _instance;
         private static readonly object _lock = new object();
         private HttpClient client;
-        private string APIUrl = "http://localhost:8080/user";
-        private string APIloginUrl = "http://localhost:8080/login";
+        private string APIUrl = "https://productivityapp-api-production.up.railway.app/user";
+        private string APIloginUrl = "https://productivityapp-api-production.up.railway.app/login";
 
         public UserController()
         {
