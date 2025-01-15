@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
 
 namespace Productivity.Models
 {
@@ -16,5 +12,11 @@ namespace Productivity.Models
             this.email = email;
             this.password = password;
         }
+
+        [JsonProperty("email")]
+        public string Email { get { return email; } }
+        [JsonProperty("password")]
+        public string Password { get { return password; } }
+
     }
 }

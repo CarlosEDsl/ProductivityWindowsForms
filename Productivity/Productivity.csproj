@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\TokenCache.cs" />
     <Compile Include="Controllers\TaskController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Models\LoginModel.cs" />
@@ -100,6 +101,12 @@
     <Compile Include="Views\Tarefas.Designer.cs">
       <DependentUpon>Tarefas.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\TaskCreation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\TaskCreation.Designer.cs">
+      <DependentUpon>TaskCreation.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\Estatísticas.resx">
       <DependentUpon>Estatísticas.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,6 +137,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Tarefas.resx">
       <DependentUpon>Tarefas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\TaskCreation.resx">
+      <DependentUpon>TaskCreation.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

@@ -1,21 +1,34 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Productivity.Cache;
+using Productivity.Models;
+using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Productivity.Models;
 
 namespace Productivity.Controllers
 {
     internal class TaskController
     {
         private readonly HttpClient client;
-        private readonly string APIUrl = "https://api.example.com/tasks"; // Substitua pelo endpoint correto
+        private readonly string APIUrl = "http://localhost:8080/task";
+        private static TaskController _instance;
 
         public TaskController()
         {
             client = new HttpClient();
         }
+
+        public static TaskController GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new TaskController();
+            }
+            return _instance;
+        }
+
 
         public async Task<TaskModel> CreateTask(TaskModel task)
         {
@@ -23,6 +36,9 @@ namespace Productivity.Controllers
             {
                 string jsonTask = JsonConvert.SerializeObject(task);
                 var taskRequestBody = new StringContent(jsonTask, Encoding.UTF8, "application/json");
+
+                string token = TokenCache.GetToken();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
                 HttpResponseMessage response = await client.PostAsync(APIUrl, taskRequestBody);
 
@@ -44,6 +60,8 @@ namespace Productivity.Controllers
         {
             try
             {
+                string token = TokenCache.GetToken();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await client.DeleteAsync($"{APIUrl}/{taskId}");
 
                 response.EnsureSuccessStatusCode();
@@ -59,19 +77,76 @@ namespace Productivity.Controllers
         {
             try
             {
-                task.Finished = DateTime.Now;
+                task.Finished = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+
 
                 string jsonTask = JsonConvert.SerializeObject(task);
                 var taskRequestBody = new StringContent(jsonTask, Encoding.UTF8, "application/json");
 
+
+                string token = TokenCache.GetToken();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
                 HttpResponseMessage response = await client.PutAsync($"{APIUrl}/{task.Id}", taskRequestBody);
                 response.EnsureSuccessStatusCode();
 
+
                 return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
                 return false;
             }
         }
+
+        public async Task<List<TaskModel>> GetAllTasksFromUser(int user_id)
+        {
+            try
+            {
+                string token = TokenCache.GetToken();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+                HttpResponseMessage response = await client.GetAsync($"{APIUrl}/user/{user_id}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+
+                List<TaskModel> tasks = JsonConvert.DeserializeObject<List<TaskModel>>(responseJson);
+                foreach (var task in tasks)
+                {
+                    task.UserId = user_id;
+                }
+
+                Console.WriteLine(tasks);
+                return tasks;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+        }
+
+        public async Task<TaskModel> GetTaskById(int id)
+        {
+            try
+            {
+                string token = TokenCache.GetToken();
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer ", token);
+
+                HttpResponseMessage response = await client.GetAsync($"{APIUrl}/{id}");
+                response.EnsureSuccessStatusCode();
+                string responseJson = await response.Content.ReadAsStringAsync();
+
+                TaskModel task = JsonConvert.DeserializeObject<TaskModel>(responseJson);
+                task.UserId = TokenCache.GetUserId();
+
+                return task;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
     }
 }

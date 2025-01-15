@@ -1,58 +1,84 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 
 namespace Productivity.Models
 {
     internal class MonthStatistic
     {
         private int id;
-        private int userId;
-        private int month;
+        private User user;
+        private string month;
         private int year;
         private double avgConclusions;
         private double totalHours;
 
         public MonthStatistic() { }
 
-        public MonthStatistic(int id, int userId, int month, int year, double avgConclusions, double totalHours)
+        public MonthStatistic(int id, User user, string month, int year, double avgConclusions, double totalHours)
         {
             this.id = id;
-            this.userId = userId;
+            this.user = user;
             this.month = month;
             this.year = year;
             this.avgConclusions = avgConclusions;
             this.totalHours = totalHours;
         }
 
+        [JsonProperty("id")]
         public int Id
         {
             get { return id; }
             set { id = value; }
         }
 
-        public int UserId
+        [JsonProperty("user")]
+        public User User
         {
-            get { return userId; }
-            set { userId = value; }
+            get { return user; }
+            set { user = value; }
         }
 
-        public int Month
+        [JsonProperty("month")]
+        public string Month
         {
             get { return month; }
             set { month = value; }
         }
 
+        public int GetMonthNumber()
+        {
+            switch (this.Month)
+            {
+                case "JAN": return 1;
+                case "FEB": return 2;
+                case "MAR": return 3;
+                case "APR": return 4;
+                case "MAY": return 5;
+                case "JUN": return 6;
+                case "JUL": return 7;
+                case "AUG": return 8;
+                case "SEP": return 9;
+                case "OCT": return 10;
+                case "NOV": return 11;
+                case "DEC": return 12;
+                default: return -1;
+            }
+        }
+
+        [JsonProperty("year")]
         public int Year
         {
             get { return year; }
             set { year = value; }
         }
 
+        [JsonProperty("avgConclusions")]
         public double AvgConclusions
         {
             get { return avgConclusions; }
             set { avgConclusions = value; }
         }
 
+        [JsonProperty("totalHours")]
         public double TotalHours
         {
             get { return totalHours; }
