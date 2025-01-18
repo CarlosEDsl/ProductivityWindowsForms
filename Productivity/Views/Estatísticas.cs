@@ -156,16 +156,11 @@ namespace Productivity
             {
                 percentual = statistic.AvgConclusions * 100;
             }
-            percentualFinished.Text = $"{percentual:F2}%";
 
+            percentualFinished.Text = $"{Math.Round(percentual, 2):F2}%";
         }
 
         private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
@@ -182,6 +177,11 @@ namespace Productivity
         }
 
         private void hourPerMonth_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void total_Click(object sender, EventArgs e)
         {
 
         }

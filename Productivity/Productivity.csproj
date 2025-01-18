@@ -156,8 +156,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\images.jpg" />
+    <None Include="Resources\ImagemPerfil1.jpg" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\ImagemPerfil2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImagemPerfil3.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImagemPerfil4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ImagemPerfil5.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
