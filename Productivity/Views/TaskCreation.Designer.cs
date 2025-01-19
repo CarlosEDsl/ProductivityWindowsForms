@@ -126,7 +126,11 @@
             this.Controls.Add(this.title);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.create);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(410, 458);
+            this.MinimumSize = new System.Drawing.Size(410, 458);
             this.Name = "TaskCreation";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TaskCreation";
             this.ResumeLayout(false);
             this.PerformLayout();

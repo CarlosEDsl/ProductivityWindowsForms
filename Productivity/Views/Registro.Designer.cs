@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.registerbox = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cancelbutton = new System.Windows.Forms.Button();
             this.register = new System.Windows.Forms.Button();
             this.telebox = new System.Windows.Forms.TextBox();
@@ -48,6 +49,7 @@
             this.registerbox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.registerbox.Controls.Add(this.label3);
             this.registerbox.Controls.Add(this.cancelbutton);
             this.registerbox.Controls.Add(this.register);
             this.registerbox.Controls.Add(this.telebox);
@@ -67,6 +69,16 @@
             this.registerbox.TabStop = false;
             this.registerbox.Text = "Registro";
             // 
+            // label3
+            // 
+            this.label3.Location = new System.Drawing.Point(16, 153);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(220, 37);
+            this.label3.TabIndex = 10;
+            this.label3.Text = "*A senha deve ter no minimo 8 caracteres";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
+            // 
             // cancelbutton
             // 
             this.cancelbutton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -77,6 +89,7 @@
             this.cancelbutton.TabIndex = 9;
             this.cancelbutton.Text = "Cancelar";
             this.cancelbutton.UseVisualStyleBackColor = true;
+            this.cancelbutton.Click += new System.EventHandler(this.cancelbutton_Click);
             // 
             // register
             // 
@@ -134,6 +147,7 @@
             this.passbox.Name = "passbox";
             this.passbox.Size = new System.Drawing.Size(223, 22);
             this.passbox.TabIndex = 3;
+            this.passbox.UseSystemPasswordChar = true;
             // 
             // senha
             // 
@@ -171,7 +185,11 @@
             this.ClientSize = new System.Drawing.Size(623, 242);
             this.Controls.Add(this.registerbox);
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(641, 289);
+            this.MinimumSize = new System.Drawing.Size(641, 289);
             this.Name = "Registro";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Registro";
             this.registerbox.ResumeLayout(false);
             this.registerbox.PerformLayout();
@@ -193,5 +211,6 @@
         private System.Windows.Forms.Button register;
         private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
         private System.Windows.Forms.Button cancelbutton;
+        private System.Windows.Forms.Label label3;
     }
 }

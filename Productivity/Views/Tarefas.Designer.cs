@@ -108,7 +108,11 @@
             this.Controls.Add(this.total);
             this.Controls.Add(this.createTask);
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(805, 631);
+            this.MinimumSize = new System.Drawing.Size(805, 631);
             this.Name = "Tarefas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Tarefas";
             this.Load += new System.EventHandler(this.Tarefas_Load);
             this.ResumeLayout(false);

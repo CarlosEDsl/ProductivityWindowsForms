@@ -23,6 +23,10 @@ namespace Productivity.Views
             string title = titleBox.Text;
             string description = descriptionBox.Text;
             DateTime term = termPicker.Value;
+
+            // Ajusta o horário para 23:59 do mesmo dia
+            term = new DateTime(term.Year, term.Month, term.Day, 23, 59, 0);
+
             string termISO = term.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
             TaskModel task = new TaskModel(0, TokenCache.GetUserId(), title, description, "", termISO);
@@ -38,7 +42,6 @@ namespace Productivity.Views
             {
                 MessageBox.Show("Erro ao criar a tarefa.");
             }
-
         }
 
         private void termPicker_ValueChanged(object sender, EventArgs e)

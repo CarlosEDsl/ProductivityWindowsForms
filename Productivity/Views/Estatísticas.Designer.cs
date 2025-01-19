@@ -45,7 +45,7 @@
             this.hourPerMonth.BackColor = System.Drawing.Color.Transparent;
             this.hourPerMonth.BorderlineColor = System.Drawing.Color.Transparent;
             this.hourPerMonth.Location = new System.Drawing.Point(16, 284);
-            this.hourPerMonth.Margin = new System.Windows.Forms.Padding(4);
+            this.hourPerMonth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.hourPerMonth.Name = "hourPerMonth";
             this.hourPerMonth.Size = new System.Drawing.Size(485, 255);
             this.hourPerMonth.TabIndex = 0;
@@ -62,6 +62,7 @@
             this.total.Size = new System.Drawing.Size(240, 39);
             this.total.TabIndex = 3;
             this.total.Text = "Total de Tasks";
+            this.total.Click += new System.EventHandler(this.total_Click);
             // 
             // label1
             // 
@@ -88,10 +89,10 @@
             // percentualFinished
             // 
             this.percentualFinished.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.percentualFinished.Location = new System.Drawing.Point(578, 92);
+            this.percentualFinished.Location = new System.Drawing.Point(577, 92);
             this.percentualFinished.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.percentualFinished.Name = "percentualFinished";
-            this.percentualFinished.Size = new System.Drawing.Size(370, 91);
+            this.percentualFinished.Size = new System.Drawing.Size(403, 91);
             this.percentualFinished.TabIndex = 6;
             this.percentualFinished.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.percentualFinished.Click += new System.EventHandler(this.label3_Click);
@@ -122,7 +123,7 @@
             // 
             this.tasksPerMonth.BackColor = System.Drawing.Color.Transparent;
             this.tasksPerMonth.Location = new System.Drawing.Point(565, 284);
-            this.tasksPerMonth.Margin = new System.Windows.Forms.Padding(4);
+            this.tasksPerMonth.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tasksPerMonth.Name = "tasksPerMonth";
             this.tasksPerMonth.Size = new System.Drawing.Size(485, 255);
             this.tasksPerMonth.TabIndex = 1;
@@ -141,8 +142,12 @@
             this.Controls.Add(this.total);
             this.Controls.Add(this.tasksPerMonth);
             this.Controls.Add(this.hourPerMonth);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1085, 601);
+            this.MinimumSize = new System.Drawing.Size(1085, 601);
             this.Name = "Estatísticas";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Estatísticas";
             this.Load += new System.EventHandler(this.Estatísticas_Load);
             ((System.ComponentModel.ISupportInitialize)(this.hourPerMonth)).EndInit();
