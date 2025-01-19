@@ -35,9 +35,10 @@
             // Register
             // 
             this.Register.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Register.Location = new System.Drawing.Point(75, 139);
+            this.Register.Location = new System.Drawing.Point(100, 171);
+            this.Register.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Register.Name = "Register";
-            this.Register.Size = new System.Drawing.Size(307, 75);
+            this.Register.Size = new System.Drawing.Size(409, 92);
             this.Register.TabIndex = 3;
             this.Register.Text = "Registrar";
             this.Register.UseVisualStyleBackColor = true;
@@ -46,9 +47,10 @@
             // Login
             // 
             this.Login.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Login.Location = new System.Drawing.Point(75, 47);
+            this.Login.Location = new System.Drawing.Point(100, 58);
+            this.Login.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Login.Name = "Login";
-            this.Login.Size = new System.Drawing.Size(307, 75);
+            this.Login.Size = new System.Drawing.Size(409, 92);
             this.Login.TabIndex = 4;
             this.Login.Text = "Login";
             this.Login.UseVisualStyleBackColor = true;
@@ -56,12 +58,17 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 310);
+            this.ClientSize = new System.Drawing.Size(628, 382);
             this.Controls.Add(this.Login);
             this.Controls.Add(this.Register);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(646, 429);
+            this.MinimumSize = new System.Drawing.Size(646, 429);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "ProductivityAPP";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
