@@ -7,9 +7,8 @@ namespace Productivity
 {
     public partial class Pomodoro : Form
     {
-
+        private static Pomodoro instance;
         private UserController userController;
-
         private static bool runningTimer = false;
         private int workDuration = 25;
         private int breakDuration = 5;
@@ -17,13 +16,25 @@ namespace Productivity
         private double secondsToSave;
         private Timer pomodoroTimer;
 
-        public Pomodoro()
+        private Pomodoro()
         {
             InitializeComponent();
             pomodoroTimer = new Timer();
             pomodoroTimer.Interval = 1000;
             pomodoroTimer.Tick += TimerTick;
             userController = UserController.Instance;
+        }
+
+        public static Pomodoro Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Pomodoro();
+                }
+                return instance;
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -40,14 +51,7 @@ namespace Productivity
         {
             runningTimer = true;
             int timerSeconds = this.ConvertToSeconds();
-            if (timerSeconds == 0)
-            {
-                secondsRemaining = workDuration * 60;
-            }
-            else
-            {
-                secondsRemaining = timerSeconds;
-            }
+            secondsRemaining = timerSeconds == 0 ? workDuration * 60 : timerSeconds;
             pomodoroTimer.Start();
         }
 
@@ -61,7 +65,7 @@ namespace Productivity
                 if (secondsToSave >= 3)
                 {
                     DateTime date = DateTime.Now;
-                    this.userController.AddHoursToMonth(TokenCache.GetUserId(), date.Month, date.Year, secondsToSave);
+                    userController.AddHoursToMonth(TokenCache.GetUserId(), date.Month, date.Year, secondsToSave);
                     secondsToSave = 0;
                 }
 
@@ -92,13 +96,10 @@ namespace Productivity
         {
             try
             {
-                string timerLastCount = timer.Text;
-                string[] timeParts = timerLastCount.Split(':');
+                string[] timeParts = timer.Text.Split(':');
                 int minutes = int.Parse(timeParts[0]);
                 int seconds = int.Parse(timeParts[1]);
-
-                int totalSeconds = minutes * 60 + seconds;
-                return totalSeconds;
+                return minutes * 60 + seconds;
             }
             catch
             {
@@ -113,7 +114,6 @@ namespace Productivity
 
         private void Pomodoro_Load(object sender, EventArgs e)
         {
-
         }
     }
 }

@@ -11,11 +11,26 @@ namespace Productivity
 {
     public partial class Menu : Form
     {
-        UserController userController;
+        private static Menu instance;
+
+        public static Menu Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Menu();
+                }
+                return instance;
+            }
+        }
+
+        private UserController userController;
 
         private List<Image> images;
         private int currentImageIndex;
-        public Menu()
+
+        private Menu()
         {
             InitializeComponent();
             userController = UserController.Instance;
@@ -28,26 +43,25 @@ namespace Productivity
                 Properties.Resources.ImagemPerfil4,
                 Properties.Resources.ImagemPerfil5
             };
-            int currentImageIndex = 0;
 
             profilePic.Image = Resources.ImagemPerfil1;
         }
 
         private void taskOption_Click(object sender, EventArgs e)
         {
-            var taskPage = new Tarefas();
+            var taskPage = Productivity.Tarefas.Instance;
             taskPage.ShowDialog();
         }
 
         private void Estatísticas_Click(object sender, EventArgs e)
         {
-            var estatisticsPage = new Estatísticas();
+            var estatisticsPage = Productivity.Estatísticas.Instance;
             estatisticsPage.ShowDialog();
         }
 
         private void pomodoroOption_Click(object sender, EventArgs e)
         {
-            var pomodoro = new Pomodoro();
+            var pomodoro = Productivity.Pomodoro.Instance;
             pomodoro.ShowDialog();
         }
 

@@ -7,8 +7,23 @@ namespace Productivity
 {
     public partial class Registro : Form
     {
+        private static Registro instance;
+
+        public static Registro Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Registro();
+                }
+                return instance;
+            }
+        }
+
         private UserController userController;
-        public Registro()
+
+        private Registro()
         {
             InitializeComponent();
             userController = UserController.Instance;
@@ -31,6 +46,30 @@ namespace Productivity
             string name = this.namebox.Text;
             string cell = this.telebox.Text;
 
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Erro! Nome vazio", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(email))
+            {
+                MessageBox.Show("Erro! Email vazio", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Erro! Senha vazio", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (password.Length < 8)
+            {
+                MessageBox.Show("Erro! Senha muito curta", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             User user = new User(email, password, name, cell);
             user.Id = 0;
 
@@ -44,9 +83,8 @@ namespace Productivity
             {
                 MessageBox.Show("Registration failed. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-
         }
+
 
         private void cancelbutton_Click(object sender, EventArgs e)
         {

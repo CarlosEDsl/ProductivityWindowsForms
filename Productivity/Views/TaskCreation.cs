@@ -11,6 +11,8 @@ namespace Productivity.Views
         private TaskController taskController;
         private Tarefas taskListForm;
 
+        private static TaskCreation instance;
+
         public TaskCreation(Tarefas taskListForm)
         {
             InitializeComponent();
@@ -24,7 +26,12 @@ namespace Productivity.Views
             string description = descriptionBox.Text;
             DateTime term = termPicker.Value;
 
-            // Ajusta o horário para 23:59 do mesmo dia
+            if (term.Date < DateTime.Now.Date)
+            {
+                MessageBox.Show("Erro! A data não pode ser anterior a hoje.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             term = new DateTime(term.Year, term.Month, term.Day, 23, 59, 0);
 
             string termISO = term.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
@@ -43,6 +50,7 @@ namespace Productivity.Views
                 MessageBox.Show("Erro ao criar a tarefa.");
             }
         }
+
 
         private void termPicker_ValueChanged(object sender, EventArgs e)
         {

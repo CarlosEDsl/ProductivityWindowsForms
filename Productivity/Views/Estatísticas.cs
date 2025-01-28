@@ -10,16 +10,30 @@ namespace Productivity
 {
     public partial class Estatísticas : Form
     {
+        private static Estatísticas instance;
+
+        public static Estatísticas Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Estatísticas();
+                }
+                return instance;
+            }
+        }
 
         private UserController userController;
         private List<MonthStatistic> monthStatisticList;
         private TaskController taskController;
-        public Estatísticas()
+
+        private Estatísticas()
         {
             InitializeComponent();
-            this.userController = new UserController();
+            this.userController = UserController.Instance; // Singleton aplicado ao UserController
             this.monthStatisticList = new List<MonthStatistic>();
-            this.taskController = TaskController.GetInstance();
+            this.taskController = TaskController.GetInstance(); // Assumindo que TaskController também segue Singleton
         }
 
         private async void ShowStatisticsInScreen()
@@ -35,10 +49,12 @@ namespace Productivity
 
                 MonthStatistic statistic = await this.userController.GetMonthStatistic(TokenCache.GetUserId(), month, year);
                 if (statistic != null)
+                {
                     monthStatisticList.Add(statistic);
+                }
             }
 
-            if(monthStatisticList.Count > 0)
+            if (monthStatisticList.Count > 0)
             {
                 this.MakeHoursGraph();
                 this.MakeTasksGraph();
@@ -80,7 +96,6 @@ namespace Productivity
                 MonthStatistic statistic = monthStatisticList.Find(month => month.GetMonthNumber() == date.Month && month.Year == date.Year);
                 if (statistic != null)
                 {
-                    Console.WriteLine(statistic);
                     hours = statistic.TotalHours;
                 }
 
@@ -89,7 +104,6 @@ namespace Productivity
             series.ChartType = SeriesChartType.Column;
 
             hourPerMonth.Series.Add(series);
-
         }
 
         private async void MakeTasksGraph()
@@ -129,7 +143,6 @@ namespace Productivity
                         }
                     }
                 }
-
 
                 series.Points.AddXY(date, totalTasks);
             }
@@ -172,7 +185,6 @@ namespace Productivity
 
         private void Estatísticas_Load(object sender, EventArgs e)
         {
-
             ShowStatisticsInScreen();
         }
 

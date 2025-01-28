@@ -16,6 +16,20 @@ namespace Productivity
         private TaskController taskController;
         private List<TaskModel> tasks;
 
+        private static Tarefas instance;
+
+        public static Tarefas Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Tarefas();
+                }
+                return instance;
+            }
+        }
+
         public Tarefas()
         {
             InitializeComponent();
