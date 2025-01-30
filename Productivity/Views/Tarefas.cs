@@ -16,17 +16,31 @@ namespace Productivity
         private TaskController taskController;
         private List<TaskModel> tasks;
 
+        private static Tarefas instance;
+
+        public static Tarefas Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Tarefas();
+                }
+                return instance;
+            }
+        }
+
         public Tarefas()
         {
             InitializeComponent();
             tasks = new List<TaskModel>();
             taskController = TaskController.GetInstance();
-
+            FormClosed += (s, e) => instance = null;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TaskCreation taskCreation = new TaskCreation(this);
+            TaskCreation taskCreation = TaskCreation.GetInstance(this);
             taskCreation.Show();
         }
 
@@ -91,7 +105,7 @@ namespace Productivity
             {
                 Text = task.Finished == null ?
                     $"{task.Name} - {task.getFormattedTerm()}" :
-                    $"{task.Name} - Finalizada em {task.Finished}",
+                    $"{task.Name} - Finalizada em {task.getFormattedFinish()}",
                 AutoSize = false,
                 Location = new Point(10, 10),
                 Size = new Size(taskPanel.ClientSize.Width - 200, 20),
@@ -174,14 +188,14 @@ namespace Productivity
                 TaskModel taskFinished = await this.taskController.GetTaskById(taskToFinish);
                 if (taskFinished != null)
                 {
-                    taskFinished.Finished = new DateTime().ToString("yyyy-MM-ddTHH:mm:ss");
+                    taskFinished.Finished = new DateTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
 
                     this.taskController.FinishTask(taskFinished);
 
                     Label taskLabel = taskPanel.Controls.OfType<Label>().FirstOrDefault();
                     if (taskLabel != null)
                     {
-                        taskLabel.Text = $"{taskFinished.Name} - Finalizada em {taskFinished.Finished}";
+                        taskLabel.Text = $"{taskFinished.Name} - Finalizada em {taskFinished.getFormattedFinish()}";
                         clickedButton.Hide();
                     }
                 }

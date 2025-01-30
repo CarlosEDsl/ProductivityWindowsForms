@@ -63,21 +63,43 @@ namespace Productivity.Models
         [JsonProperty("term")]
         public string Term
         {
-            get { return term; }
+            get { 
+                return term; 
+            }
             set { term = value; }
         }
 
         public string getFormattedTerm()
         {
-            DateTime dateTime = DateTime.ParseExact(term, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
-            return dateTime.ToString("dd/MM/yyyy");
+            try
+            {
+                Console.WriteLine(term);
+                DateTime dateTime = DateTime.ParseExact(term, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+                return dateTime.AddHours(-3).ToString("dd/MM/yyyy");
+            } catch (Exception e)
+            {
+                Console.WriteLine(term);
+                DateTime dateTime = DateTime.ParseExact(term, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                return dateTime.AddHours(-3).ToString("dd/MM/yyyy");
+            }
+
+            
 
         }
 
         public string getFormattedFinish()
         {
-            DateTime dateTime = DateTime.ParseExact(finished, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
-            return dateTime.ToString("dd/MM/yyyy");
+            Console.WriteLine(finished);
+            try
+            {
+                DateTime dateTime = DateTime.ParseExact(finished, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+                return dateTime.AddHours(3).ToString("dd/MM/yyyy");
+            } catch(Exception e)
+            {
+                DateTime dateTime = DateTime.ParseExact(finished, "yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture);
+                return dateTime.ToString("dd/MM/yyyy");
+            }
+            
         }
     }
 }

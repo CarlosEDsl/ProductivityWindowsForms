@@ -11,11 +11,23 @@ namespace Productivity.Views
         private TaskController taskController;
         private Tarefas taskListForm;
 
-        public TaskCreation(Tarefas taskListForm)
+        private static TaskCreation instance;
+
+        public static TaskCreation GetInstance(Tarefas taskListForm)
+        {
+            if (instance == null || instance.IsDisposed)
+            {
+                instance = new TaskCreation(taskListForm);
+            }
+            return instance;
+        }
+
+        private TaskCreation(Tarefas taskListForm)
         {
             InitializeComponent();
             taskController = TaskController.GetInstance();
             this.taskListForm = taskListForm;
+            FormClosed += (s, e) => instance = null;
         }
 
         private async void create_Click(object sender, EventArgs e)
@@ -24,10 +36,26 @@ namespace Productivity.Views
             string description = descriptionBox.Text;
             DateTime term = termPicker.Value;
 
-            // Ajusta o horário para 23:59 do mesmo dia
-            term = new DateTime(term.Year, term.Month, term.Day, 23, 59, 0);
+            if (term.Date < DateTime.Now.Date)
+            {
+                MessageBox.Show("Erro! A data não pode ser anterior a hoje.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-            string termISO = term.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+            if (description.Length <= 0) {
+                MessageBox.Show("Erro! falta descrição.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (title.Length <= 3) {
+                MessageBox.Show("Erro! O título precisa de pelo menos 3 caracteres.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            term = new DateTime(term.Year, term.Month, term.Day, 23, 59, 59).AddHours(3);
+            string termISO = term.ToString("yyyy-MM-ddTHH:mm:ssZ");
+
+            Console.WriteLine(termISO);
 
             TaskModel task = new TaskModel(0, TokenCache.GetUserId(), title, description, "", termISO);
 
@@ -44,6 +72,7 @@ namespace Productivity.Views
             }
         }
 
+
         private void termPicker_ValueChanged(object sender, EventArgs e)
         {
 
@@ -57,6 +86,11 @@ namespace Productivity.Views
         private void cancel_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void titleBox_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

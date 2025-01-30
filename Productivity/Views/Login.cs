@@ -6,11 +6,27 @@ namespace Productivity
 {
     public partial class Login : Form
     {
+        private static Login instance;
+
+        public static Login Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Login();
+                }
+                return instance;
+            }
+        }
+
         private UserController userController;
-        public Login()
+
+        private Login()
         {
             InitializeComponent();
             userController = UserController.Instance;
+            FormClosed += (s, e) => instance = null;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -34,7 +50,7 @@ namespace Productivity
 
                 if (loggin)
                 {
-                    var menu = new Menu();
+                    var menu = Productivity.Menu.Instance;
                     this.Hide();
                     menu.ShowDialog();
 

@@ -77,7 +77,7 @@ namespace Productivity.Controllers
         {
             try
             {
-                task.Finished = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
+                task.Finished = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
 
 
                 string jsonTask = JsonConvert.SerializeObject(task);

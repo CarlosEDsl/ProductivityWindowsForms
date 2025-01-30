@@ -5,9 +5,24 @@ namespace Productivity
 {
     public partial class Form1 : Form
     {
+        public static Form1 instance;
+
+        public static Form1 Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Form1();
+                }
+                return instance;
+            }
+        }
+
         public Form1()
         {
             InitializeComponent();
+            FormClosed += (s, e) => instance = null;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -17,7 +32,7 @@ namespace Productivity
 
         private void Register_Click(object sender, EventArgs e)
         {
-            var register = new Registro();
+            var register = Productivity.Registro.Instance;
 
             this.Hide();
             register.ShowDialog();
@@ -27,7 +42,7 @@ namespace Productivity
 
         private void Login_Click(object sender, EventArgs e)
         {
-            var login = new Login();
+            var login = Productivity.Login.Instance;
 
             this.Hide();
             login.ShowDialog();

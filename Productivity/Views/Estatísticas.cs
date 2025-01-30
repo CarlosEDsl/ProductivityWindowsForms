@@ -10,16 +10,31 @@ namespace Productivity
 {
     public partial class Estatísticas : Form
     {
+        private static Estatísticas instance;
+
+        public static Estatísticas Instance
+        {
+            get
+            {
+                if (instance == null || instance.IsDisposed)
+                {
+                    instance = new Estatísticas();
+                }
+                return instance;
+            }
+        }
 
         private UserController userController;
         private List<MonthStatistic> monthStatisticList;
         private TaskController taskController;
-        public Estatísticas()
+
+        private Estatísticas()
         {
             InitializeComponent();
-            this.userController = new UserController();
+            this.userController = UserController.Instance;
             this.monthStatisticList = new List<MonthStatistic>();
             this.taskController = TaskController.GetInstance();
+            FormClosed += (s, e) => instance = null;
         }
 
         private async void ShowStatisticsInScreen()
@@ -35,10 +50,12 @@ namespace Productivity
 
                 MonthStatistic statistic = await this.userController.GetMonthStatistic(TokenCache.GetUserId(), month, year);
                 if (statistic != null)
+                {
                     monthStatisticList.Add(statistic);
+                }
             }
 
-            if(monthStatisticList.Count > 0)
+            if (monthStatisticList.Count > 0)
             {
                 this.MakeHoursGraph();
                 this.MakeTasksGraph();
@@ -57,18 +74,22 @@ namespace Productivity
             DateTime today = DateTime.Now;
             DateTime minDate = today.AddMonths(-12);
 
+            if (hourPerMonth.ChartAreas.IndexOf("HoursGraph") != -1)
+            {
+                hourPerMonth.ChartAreas.RemoveAt(hourPerMonth.ChartAreas.IndexOf("HoursGraph"));
+            }
+
             hourPerMonth.ChartAreas.Add("HoursGraph");
 
             hourPerMonth.ChartAreas["HoursGraph"].AxisX.LabelStyle.Format = "MMM yyyy";
             hourPerMonth.ChartAreas["HoursGraph"].AxisX.Minimum = minDate.ToOADate();
             hourPerMonth.ChartAreas["HoursGraph"].AxisX.Maximum = today.ToOADate();
             hourPerMonth.ChartAreas["HoursGraph"].AxisX.IntervalType = DateTimeIntervalType.Months;
-
             hourPerMonth.ChartAreas["HoursGraph"].AxisY.Title = "Horas";
 
             Series series = new Series
             {
-                Name = "Horas por Mês",
+                Name = "HoursPerMonth",
                 ChartType = SeriesChartType.Column
             };
 
@@ -80,22 +101,30 @@ namespace Productivity
                 MonthStatistic statistic = monthStatisticList.Find(month => month.GetMonthNumber() == date.Month && month.Year == date.Year);
                 if (statistic != null)
                 {
-                    Console.WriteLine(statistic);
                     hours = statistic.TotalHours;
                 }
 
                 series.Points.AddXY(date, hours);
             }
-            series.ChartType = SeriesChartType.Column;
+
+            if (hourPerMonth.Series.IndexOf("HoursPerMonth") != -1)
+            {
+                hourPerMonth.Series.RemoveAt(hourPerMonth.Series.IndexOf("HoursPerMonth"));
+            }
 
             hourPerMonth.Series.Add(series);
-
         }
+
 
         private async void MakeTasksGraph()
         {
             DateTime today = DateTime.Now;
             DateTime minDate = today.AddMonths(-12);
+
+            if (tasksPerMonth.ChartAreas.IndexOf("TasksGraph") != -1)
+            {
+                tasksPerMonth.ChartAreas.RemoveAt(tasksPerMonth.ChartAreas.IndexOf("TasksGraph"));
+            }
 
             tasksPerMonth.ChartAreas.Add("TasksGraph");
 
@@ -107,8 +136,8 @@ namespace Productivity
             tasksPerMonth.ChartAreas["TasksGraph"].AxisY.Title = "Tarefas";
 
             Series series = new Series
-            {
-                Name = "Tarefas por mês",
+            {   
+                Name = "TasksPerMonth",
                 ChartType = SeriesChartType.Column
             };
 
@@ -130,10 +159,14 @@ namespace Productivity
                     }
                 }
 
-
                 series.Points.AddXY(date, totalTasks);
             }
             series.ChartType = SeriesChartType.Column;
+
+            if (tasksPerMonth.Series.IndexOf("TasksPerMonth") != -1)
+            {
+                tasksPerMonth.Series.RemoveAt(tasksPerMonth.Series.IndexOf("TasksPerMonth"));
+            }
 
             tasksPerMonth.Series.Add(series);
         }
@@ -172,7 +205,6 @@ namespace Productivity
 
         private void Estatísticas_Load(object sender, EventArgs e)
         {
-
             ShowStatisticsInScreen();
         }
 
